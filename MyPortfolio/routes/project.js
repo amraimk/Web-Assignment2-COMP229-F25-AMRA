@@ -4,8 +4,9 @@ import {
     createProject, 
     getProjectById, 
     updateProjectById, 
-    deleteProjectById 
-} from "../controllers/project.js";
+    deleteProjectById,
+    deleteAllProjects
+} from "../controllers/projects.js";
 
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.post("/", createProject);
 router.get("/:id", getProjectById);
 router.put("/:id", updateProjectById);
 router.delete("/:id", deleteProjectById);
+router.delete("/", deleteAllProjects);
 
 export default router;

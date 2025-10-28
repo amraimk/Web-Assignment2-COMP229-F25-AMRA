@@ -1,4 +1,4 @@
-import projectModel from "../models/project.js";
+import projectModel from "../models/projects.js";
 
 //Read all projects
 export const getAllProjects = async (req, res) => {
@@ -61,6 +61,20 @@ export const deleteProjectById = async (req, res) => {
         res.status(200).json({ message: "Project deleted successfully" });
     } catch (error) {
         console.error("Error deleting project:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+//Delete all projects
+export const deleteAllProjects = async (req, res) => {
+    try {
+        const result  = await projectModel.deleteMany({}); 
+        if (result .deletedCount === 0) {
+            return res.status(404).json({ error: "No projects found to delete" });
+        }
+        res.status(200).json({ message: "All projects deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting projects:", error);
         res.status(500).json({ error: error.message });
     }
 };

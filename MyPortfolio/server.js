@@ -2,6 +2,9 @@ import config from "./config/config.js";
 import express from "express";
 import mongoose from "mongoose";
 import projectRoutes from "./routes/project.js";
+import contactRoutes from "./routes/contact.js";
+import userRoutes from "./routes/user.js";
+import qualificationRoutes from "./routes/qualification.js";
 
 const app = express();
 
@@ -18,6 +21,9 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 app.use("/projects", projectRoutes);
+app.use("/contacts", contactRoutes);
+app.use("/users", userRoutes);
+app.use("/qualifications", qualificationRoutes);
 
 app.listen(config.port, (err) => {
   if (err) {
