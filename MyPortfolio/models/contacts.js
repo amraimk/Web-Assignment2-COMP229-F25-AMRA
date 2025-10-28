@@ -8,4 +8,4 @@ const contactSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.model('Contact', contactSchema);
+export default mongoose.model('Contacts', contactSchema);

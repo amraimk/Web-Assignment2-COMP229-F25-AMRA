@@ -11,4 +11,4 @@ const qualificationSchema = new mongoose.Schema(
     }
 );
 
-export default mongoose.model('Qualification', qualificationSchema);
+export default mongoose.model('Educations', qualificationSchema);
