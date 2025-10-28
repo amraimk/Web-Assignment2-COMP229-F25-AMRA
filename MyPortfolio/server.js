@@ -1,10 +1,10 @@
 import config from "./config/config.js";
 import express from "express";
 import mongoose from "mongoose";
-import projectRoutes from "./routes/project.js";
-import contactRoutes from "./routes/contact.js";
-import userRoutes from "./routes/user.js";
-import qualificationRoutes from "./routes/qualification.js";
+import projectRoutes from "./routes/projects.js";
+import contactRoutes from "./routes/contacts.js";
+import userRoutes from "./routes/users.js";
+import qualificationRoutes from "./routes/qualifications.js";
 
 const app = express();
 
