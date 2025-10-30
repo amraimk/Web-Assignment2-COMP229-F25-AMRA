@@ -30,7 +30,7 @@ export const createContact = async (req, res) => {
     try {
         const newContact = new contactModel(req.body);
         await newContact.save();
-        res.status(200).json(newContact);
+        res.status(200).json({ message: "Contact created successfully", contact: newContact });
     } catch (error) {
         console.error("Error creating contact:", error);
         res.status(500).json({ error: error.message });
@@ -44,7 +44,7 @@ export const updateContactById = async (req, res) => {
         if (!contact) {
             return res.status(404).json({ error: "Contact not found" });
         }
-        res.status(200).json(contact);
+        res.status(200).json({ message: "Contact updated successfully", contact });
     } catch (error) {
         console.error("Error updating contact:", error);
         res.status(500).json({ error: error.message });

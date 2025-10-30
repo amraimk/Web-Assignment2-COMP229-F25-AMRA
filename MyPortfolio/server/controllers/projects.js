@@ -30,7 +30,7 @@ export const createProject = async (req, res) => {
     try {
         const newProject = new projectModel(req.body);
         await newProject.save();
-        res.status(200).json(newProject);
+        res.status(200).json({ message: "Project created successfully", project: newProject });
     } catch (error) {
         console.error("Error creating project:", error);
         res.status(500).json({ error: error.message });
@@ -44,7 +44,7 @@ export const updateProjectById = async (req, res) => {
         if (!project) {
             return res.status(404).json({ error: "Project not found" });
         }
-        res.status(200).json(project);
+        res.status(200).json({ message: "Project updated successfully", project });
     } catch (error) {
         console.error("Error updating project:", error);
         res.status(500).json({ error: error.message });

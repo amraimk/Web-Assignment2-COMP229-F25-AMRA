@@ -30,7 +30,7 @@ export const createQualification = async (req, res) => {
     try {
         const newQualification = new qualificationModel(req.body);
         await newQualification.save();
-        res.status(200).json(newQualification);
+        res.status(200).json({ message: "Qualification created successfully", qualification: newQualification });
     } catch (error) {
         console.error("Error creating qualification:", error);
         res.status(500).json({ error: error.message });
@@ -44,7 +44,7 @@ export const updateQualificationById = async (req, res) => {
         if (!qualification) {
             return res.status(404).json({ error: "Qualification not found" });
         }
-        res.status(200).json(qualification);
+        res.status(200).json({ message: "Qualification updated successfully", qualification });
     } catch (error) {
         console.error("Error updating qualification:", error);
         res.status(500).json({ error: error.message });
