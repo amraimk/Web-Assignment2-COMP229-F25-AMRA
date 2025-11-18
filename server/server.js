@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import morgan from 'morgan';
 import dotenv from 'dotenv';
 import projectRoutes from "./routes/projects.js";
 import contactRoutes from "./routes/contacts.js";
@@ -27,10 +28,12 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
-app.use("/projects", projectRoutes);
-app.use("/contacts", contactRoutes);
-app.use("/users", userRoutes);
-app.use("/qualifications", qualificationRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/contacts", contactRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/qualifications", qualificationRoutes);
+
+app.use(morgan('dev'));
 
 app.listen(5000, (err) => {
   if (err) {

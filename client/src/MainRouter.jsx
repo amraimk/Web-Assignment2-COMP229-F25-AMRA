@@ -5,7 +5,8 @@ import About from "./components/About";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
 import Education from "./components/Education";
-import Projects from "./components/Projects";
+import ProjectsList from "./components/ProjectsList";
+import ProjectDetails from "./components/ProjectDetails";
 import Services from "./components/Services";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -35,12 +36,13 @@ const MainRouter = () => {
         <>
             <Routes>
                 <Route path="/" element={<Layout user={user} handleLogout={handleLogout}/>}>
-                    <Route index element={<Home user={user} />} />
-                    <Route path="/about" element={<About user={user} />} />
-                    <Route path="/contact" element={<Contact user={user} />} />
-                    <Route path="/education" element={<Education user={user} />} />
-                    <Route path="/projects" element={<Projects user={user} />} />
-                    <Route path="/services" element={<Services user={user} />} />
+                    <Route index element={<Home />} />
+                    <Route path="/about" element={<About  />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/education" element={<Education />} />
+                    <Route path="/projectslist" element={<ProjectsList />} />
+                    <Route path="/projectdetails/:id?" element={<ProjectDetails />} />
+                    <Route path="/services" element={<Services />} />
                     <Route path="/login" element={<Login setUser={setUser} />} />
                     <Route path="/signup" element={<Signup setUser={setUser}/>} />
                 </Route>

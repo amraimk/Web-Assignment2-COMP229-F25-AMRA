@@ -1,5 +1,4 @@
 import { Link, Outlet } from "react-router-dom";
-import { useState, useEffect } from 'react';
 import logo from "../assets/img/logo.png";
 
 export default function Layout({user, handleLogout }) {
@@ -15,7 +14,7 @@ export default function Layout({user, handleLogout }) {
                     <ul className="nav-links">
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/about">About</Link></li>
-                        <li><Link to="/projects">Projects</Link></li>
+                        <li><Link to="/projectslist">Projects</Link></li>
                         <li><Link to="/education">Education</Link></li>
                         <li><Link to="/contact">Contact</Link></li>
                     </ul>
