@@ -14,12 +14,13 @@
     "client",
     "server"
   ],
-    "scripts": {
+  "scripts": {
     "start": "npm-run-all --parallel start:client start:server",
     "start:server": "npm --prefix server run dev",
     "start:client": "npm --prefix client run dev"
   },
-    "dependencies": {
+  "dependencies": {
+    "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
