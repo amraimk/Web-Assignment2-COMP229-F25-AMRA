@@ -38,6 +38,7 @@ export default function Login({ setUser }) {
 
             localStorage.setItem('token', data.token);
             localStorage.setItem('name', data.user.name);
+            localStorage.setItem('role', data.user.role);
             if (setUser) {
                 setUser({ name: data.user.name });
             }

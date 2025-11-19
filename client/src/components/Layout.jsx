@@ -1,7 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
 import logo from "../assets/img/logo.png";
+import { useNavigate } from "react-router-dom";
 
-export default function Layout({user, handleLogout }) {
+export default function Layout({ user, handleLogout }) {
+    const navigate = useNavigate();
     return (
         <>
             <div className="layout">
@@ -15,7 +17,7 @@ export default function Layout({user, handleLogout }) {
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/about">About</Link></li>
                         <li><Link to="/projectslist">Projects</Link></li>
-                        <li><Link to="/education">Education</Link></li>
+                        <li><Link to="/educationlist">Education</Link></li>
                         <li><Link to="/contact">Contact</Link></li>
                     </ul>
 
@@ -23,7 +25,7 @@ export default function Layout({user, handleLogout }) {
                         {user ? (
                             <div className="user-info">
                                 <span className="welcome-text">Welcome, {user.name}</span>
-                                <button className="btn-logout" onClick={handleLogout}>Logout</button>
+                                <button className="btn-logout" onClick={() => { handleLogout(); navigate('/login'); }} navigate>Logout</button>
                             </div>
                         ) : (
                             <ul className="nav-links">

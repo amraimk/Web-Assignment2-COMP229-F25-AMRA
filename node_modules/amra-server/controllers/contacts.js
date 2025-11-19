@@ -30,7 +30,7 @@ export const createContact = async (req, res) => {
     try {
         const newContact = new contactModel(req.body);
         await newContact.save();
-        res.status(200).json({ message: "Contact created successfully", contact: newContact });
+        res.status(200).json({ message: "Message sent successfully", contact: newContact });
     } catch (error) {
         console.error("Error creating contact:", error);
         res.status(500).json({ error: error.message });
@@ -61,20 +61,6 @@ export const deleteContactById = async (req, res) => {
         res.status(200).json({ message: "Contact deleted successfully" });
     } catch (error) {
         console.error("Error deleting contact:", error);
-        res.status(500).json({ error: error.message });
-    }
-};
-
-// Delete all contacts
-export const deleteAllContacts = async (req, res) => {
-    try {
-        const result = await contactModel.deleteMany({});
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ error: "No contacts found to delete" });
-        }
-        res.status(200).json({ message: "All contacts deleted successfully" });
-    } catch (error) {
-        console.error("Error deleting contacts:", error);
         res.status(500).json({ error: error.message });
     }
 };

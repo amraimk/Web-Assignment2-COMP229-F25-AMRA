@@ -4,20 +4,24 @@ import {
     createProject, 
     getProjectById, 
     updateProjectById, 
-    deleteProjectById,
-    deleteAllProjects
+    deleteProjectById
 } from "../controllers/projects.js";
 
-import authMiddleware from '../middlewares/auth.js';
+import {
+    authMiddleware,
+    authorizeAdmin
+} from '../middlewares/auth.js';
 
 const router = express.Router();
 
-//REST API
+//Only admins can create, update, delete
+router.post("/", authMiddleware, authorizeAdmin, createProject);
+router.put("/:id", authMiddleware, authorizeAdmin, updateProjectById);
+router.delete("/:id", authMiddleware, authorizeAdmin, deleteProjectById);
+
+//All logged-in users can read
 router.get("/", authMiddleware, getAllProjects);    
-router.post("/", authMiddleware, createProject);
 router.get("/:id", authMiddleware, getProjectById);
-router.put("/:id", authMiddleware, updateProjectById);
-router.delete("/:id", authMiddleware, deleteProjectById);
-router.delete("/", authMiddleware, deleteAllProjects);
+
 
 export default router;

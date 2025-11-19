@@ -4,20 +4,22 @@ import {
     createQualification, 
     getQualificationById, 
     updateQualificationById, 
-    deleteQualificationById,
-    deleteAllQualifications
+    deleteQualificationById
 } from "../controllers/qualifications.js";
 
-import authMiddleware from '../middlewares/auth.js';
+import {
+    authMiddleware,
+    authorizeAdmin
+} from '../middlewares/auth.js';
 
 const router = express.Router();
 
 // REST API routes
-router.get("/", authMiddleware, getAllQualifications);        
-router.post("/", authMiddleware, createQualification);        
-router.get("/:id", authMiddleware, getQualificationById);     
-router.put("/:id", authMiddleware, updateQualificationById);  
-router.delete("/:id", authMiddleware, deleteQualificationById); 
-router.delete("/", authMiddleware, deleteAllQualifications);  
+router.post("/", authMiddleware, authorizeAdmin, createQualification);        
+router.put("/:id", authMiddleware, authorizeAdmin, updateQualificationById);  
+router.delete("/:id", authMiddleware, authorizeAdmin, deleteQualificationById); 
+
+router.get("/", authMiddleware, getAllQualifications);  
+router.get("/:id", authMiddleware, getQualificationById);   
 
 export default router;

@@ -1,15 +1,16 @@
+import { set } from "mongoose";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-export default function ProjectDetails() {
-    const [project, setProject] = useState({
+export default function EducationDetails() {
+    const [education, setEducation] = useState({
         title: "",
         firstname: "",
         lastname: "",
         email: "",
         completion: "",
         description: ""
-    });
+    }); 
 
     const role = localStorage.getItem("role");
     const { id } = useParams();
@@ -20,14 +21,14 @@ export default function ProjectDetails() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProject(prevState => ({ ...prevState, [name]: value }));
+        setEducation(prevState => ({ ...prevState, [name]: value }));
         setError(""); // Clear error 
         setSuccess(""); // Clear success 
     };
 
     useEffect(() => {
         if (id) {
-            const fetchProject = async () => {
+            const fetchEducation = async () => {
                 const token = localStorage.getItem('token');
 
                 if (!token) {
@@ -36,7 +37,7 @@ export default function ProjectDetails() {
                 }
 
                 try {
-                    const response = await fetch(`/api/projects/${id}`, {
+                    const response = await fetch(`/api/qualifications/${id}`, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
@@ -44,11 +45,11 @@ export default function ProjectDetails() {
                     });
 
                     if (!response.ok) {
-                        throw new Error('Failed to fetch project');
+                        throw new Error('Failed to fetch education record');
                     }
 
                     const data = await response.json();
-                    setProject({
+                    setEducation({
                         title: data.title,
                         firstname: data.firstname,
                         lastname: data.lastname,
@@ -58,10 +59,10 @@ export default function ProjectDetails() {
                     });
 
                 } catch (error) {
-                    console.error('Error fetching project', error);
+                    console.error('Error fetching education record', error);
                 }
             }
-            fetchProject();
+            fetchEducation();
         }
     }, [id, navigate]);
 
@@ -76,7 +77,7 @@ export default function ProjectDetails() {
         }
 
         const method = id ? 'PUT' : 'POST';
-        const url = id ? `/api/projects/${id}` : `/api/projects`;
+        const url = id ? `/api/qualifications/${id}` : `/api/qualifications`;
 
         try {
             const response = await fetch(url, {
@@ -85,18 +86,18 @@ export default function ProjectDetails() {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(project)
+                body: JSON.stringify(education)
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Failed to save project');
+                throw new Error(data.message || 'Failed to save education');
             }
 
             setSuccess(data.message);
             setTimeout(() => {
-                navigate('/projectslist');
+                navigate('/educationlist');
             }, 1500);
 
         } catch (error) {
@@ -108,20 +109,20 @@ export default function ProjectDetails() {
         <div className="form-create-page">
             <h1>
                 {role === "Admin"
-                    ? (id ? "Update Project" : "Create Project")
-                    : "Project Details"}
+                    ? (id ? "Update Education" : "Create Education")
+                    : "Education Details"}
             </h1>
 
             {error && <p className="error-msg">{error}</p>}
             {success && <p className="success-msg">{success}</p>}
-                    
+
             <form className="form-form" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     id="title"
                     name="title"
                     placeholder="Title"
-                    value={project.title}
+                    value={education.title}
                     onChange={handleChange}
                     required
                     disabled={role !== "Admin"}
@@ -131,7 +132,7 @@ export default function ProjectDetails() {
                     id="firstname"
                     name="firstname"
                     placeholder="First Name"
-                    value={project.firstname}
+                    value={education.firstname}
                     onChange={handleChange}
                     required
                     disabled={role !== "Admin"}
@@ -141,7 +142,7 @@ export default function ProjectDetails() {
                     id="lastname"
                     name="lastname"
                     placeholder="Last Name"
-                    value={project.lastname}
+                    value={education.lastname}
                     onChange={handleChange}
                     required
                     disabled={role !== "Admin"}
@@ -151,7 +152,7 @@ export default function ProjectDetails() {
                     id="email"
                     name="email"
                     placeholder="Email"
-                    value={project.email}
+                    value={education.email}
                     onChange={handleChange}
                     required
                     disabled={role !== "Admin"}
@@ -161,7 +162,7 @@ export default function ProjectDetails() {
                     id="completion"
                     name="completion"
                     placeholder="Completion Date"
-                    value={project.completion}
+                    value={education.completion}
                     onChange={handleChange}
                     required
                     disabled={role !== "Admin"}
@@ -170,7 +171,7 @@ export default function ProjectDetails() {
                     id="description"
                     name="description"
                     placeholder="Description"
-                    value={project.description}
+                    value={education.description}
                     onChange={handleChange}
                     required
                     disabled={role !== "Admin"}
@@ -179,12 +180,12 @@ export default function ProjectDetails() {
                 {role === "Admin" ? (
                     <>
                         <button type="submit" className="create-btn">
-                            {id ? 'Update Project' : 'Create Project'}
+                            {id ? 'Update Education' : 'Create Education'}
                         </button>
                     </>
                 ) : (
                     <>
-                        <button className="create-btn" onClick={() => navigate(`/projectslist`)}>Back</button>
+                        <button className="create-btn" onClick={() => navigate(`/educationlist`)}>Back</button>
                     </>
                 )}
             </form>

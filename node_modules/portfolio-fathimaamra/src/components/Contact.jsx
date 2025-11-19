@@ -1,39 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Contact() {
     const navigate = useNavigate();
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+        }
+    }, [token, navigate]);
 
     const [formData, setFormData] = useState({
-        firstName: "",
-        lastName: "",
-        contactNumber: "",
-        email: "",
-        message: "",
+        firstname: '',
+        lastname: '',
+        contactnumber: '',
+        email: '',
+        message: ''
     });
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        setError(""); // Clear error 
+        setSuccess(""); // Clear success 
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
 
-        // Create message string
-        const messageText = `
-        Name: ${formData.firstName} ${formData.lastName}
-        Email: ${formData.email}
-        Contact: ${formData.contactNumber}
-        Message: ${formData.message}`;
+        if (!token) {
+            navigate('/login');
+            return;
+        }
 
-        // Show default browser alert
-        alert("Message Captured..\n" + messageText);
+        try {
+            const response = await fetch('/api/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(formData)
+            })
 
-        // Clear form
-        setFormData({ firstName: "", lastName: "", contactNumber: "", email: "", message: "" });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to send message');
+            }
 
-        // Redirect to Home page
-        navigate("/", { replace: true });
+            setSuccess("Message sent successfully!");
+
+        } catch (error) {
+            setError(error.message);
+        }
     };
 
     return (
@@ -45,7 +69,6 @@ export default function Contact() {
                 </p>
 
                 <div className="contact-container">
-                    {/* Contact Info */}
                     <div className="contact-panel">
                         <h3>Get in Touch</h3>
                         <p><strong>Phone:</strong> (647) 456-7890</p>
@@ -60,15 +83,15 @@ export default function Contact() {
                     {/* Contact Form */}
                     <form className="contact-form" onSubmit={handleSubmit}>
                         <div className="form-row">
-                            <input type="text" name="firstName" placeholder="First Name" value={formData.firstName}
+                            <input type="text" name="firstname" placeholder="First Name" value={formData.firstname}
                                 onChange={handleChange} required />
 
-                            <input type="text" name="lastName" placeholder="Last Name" value={formData.lastName}
+                            <input type="text" name="lastname" placeholder="Last Name" value={formData.lastname}
                                 onChange={handleChange} required />
                         </div>
 
-                        <input type="text" name="contactNumber" placeholder="Contact Number"
-                            value={formData.contactNumber} onChange={handleChange} />
+                        <input type="tel" name="contactnumber" placeholder="Contact Number"
+                            value={formData.contactnumber} onChange={handleChange} />
 
                         <input type="email" name="email" placeholder="Email Address"
                             value={formData.email} onChange={handleChange} required />
@@ -78,6 +101,9 @@ export default function Contact() {
                             onChange={handleChange} required />
 
                         <button type="submit" className="btn-submit">Send Message</button>
+
+                        {error && <p className="error-msg">{error}</p>}
+                        {success && <p className="success-msg">{success}</p>}
                     </form>
                 </div>
             </section>

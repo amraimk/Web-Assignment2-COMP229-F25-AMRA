@@ -40,6 +40,7 @@ export const createProject = async (req, res) => {
 //Update project by ID
 export const updateProjectById = async (req, res) => {
     try {
+        
         const project = await projectModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!project) {
             return res.status(404).json({ error: "Project not found" });
@@ -61,20 +62,6 @@ export const deleteProjectById = async (req, res) => {
         res.status(200).json({ message: "Project deleted successfully" });
     } catch (error) {
         console.error("Error deleting project:", error);
-        res.status(500).json({ error: error.message });
-    }
-};
-
-//Delete all projects
-export const deleteAllProjects = async (req, res) => {
-    try {
-        const result  = await projectModel.deleteMany({}); 
-        if (result .deletedCount === 0) {
-            return res.status(404).json({ error: "No projects found to delete" });
-        }
-        res.status(200).json({ message: "All projects deleted successfully" });
-    } catch (error) {
-        console.error("Error deleting projects:", error);
         res.status(500).json({ error: error.message });
     }
 };

@@ -65,16 +65,3 @@ export const deleteQualificationById = async (req, res) => {
     }
 };
 
-//Delete all qualifications
-export const deleteAllQualifications = async (req, res) => {
-    try {
-        const result = await qualificationModel.deleteMany({});
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ error: "No qualifications found to delete" });
-        }
-        res.status(200).json({ message: "All qualifications deleted successfully" });
-    } catch (error) {
-        console.error("Error deleting qualifications:", error);
-        res.status(500).json({ error: error.message });
-    }
-};

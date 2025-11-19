@@ -4,10 +4,10 @@ import Layout from "./components/Layout";
 import About from "./components/About";
 import Home from "./components/Home";
 import Contact from "./components/Contact";
-import Education from "./components/Education";
+import EducationList from "./components/EducationList";
+import EducationDetails from "./components/EducationDetails";
 import ProjectsList from "./components/ProjectsList";
 import ProjectDetails from "./components/ProjectDetails";
-import Services from "./components/Services";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 
@@ -16,8 +16,9 @@ const MainRouter = () => {
     const getUserFromStorage = () => {
         const token = localStorage.getItem("token");
         const name = localStorage.getItem("name");
+        const role = localStorage.getItem("role");
 
-        return token && name ? { name } : null;
+        return token && name && role ? { name, role } : null;
     }
 
     const [user, setUser] = useState(getUserFromStorage());
@@ -29,6 +30,7 @@ const MainRouter = () => {
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("name");
+        localStorage.removeItem("role");
         setUser(null);
     }
 
@@ -39,10 +41,10 @@ const MainRouter = () => {
                     <Route index element={<Home />} />
                     <Route path="/about" element={<About  />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/education" element={<Education />} />
+                    <Route path="/educationlist" element={<EducationList />} />
+                    <Route path="/educationdetails/:id?" element={<EducationDetails />} />
                     <Route path="/projectslist" element={<ProjectsList />} />
                     <Route path="/projectdetails/:id?" element={<ProjectDetails />} />
-                    <Route path="/services" element={<Services />} />
                     <Route path="/login" element={<Login setUser={setUser} />} />
                     <Route path="/signup" element={<Signup setUser={setUser}/>} />
                 </Route>
